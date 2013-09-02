@@ -39,8 +39,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="FluentBDD\Configuration\Processors.cs" />
+    <Compile Include="FluentBDD\Engine.cs" />
+    <Compile Include="FluentBDD\ExecutionOrder.cs" />
+    <Compile Include="FluentBDD\ExecutionStep.cs" />
+    <Compile Include="FluentBDD\ExpressionExtensions.cs" />
+    <Compile Include="FluentBDD\Extensions.cs" />
+    <Compile Include="FluentBDD\FluentBDDExtensions.cs" />
+    <Compile Include="FluentBDD\FluentContainer.cs" />
+    <Compile Include="FluentBDD\IAndGiven.cs" />
+    <Compile Include="FluentBDD\IAndThen.cs" />
+    <Compile Include="FluentBDD\IAndWhen.cs" />
+    <Compile Include="FluentBDD\IBatchProcessor.cs" />
+    <Compile Include="FluentBDD\IGiven.cs" />
+    <Compile Include="FluentBDD\IInitialStep.cs" />
+    <Compile Include="FluentBDD\IProcessor.cs" />
+    <Compile Include="FluentBDD\ITestContainer.cs" />
+    <Compile Include="FluentBDD\IThen.cs" />
+    <Compile Include="FluentBDD\IWhen.cs" />
+    <Compile Include="FluentBDD\Processors\ExceptionProcessor.cs" />
+    <Compile Include="FluentBDD\Processors\InconclusiveException.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\ConsoleReporter.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\DefaultHtmlReportConfiguration.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\FileReportModel.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\FileReportSummaryModel.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\FileWriter.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\HtmlReportBuilder.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\HtmlReporter.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\HtmlReportTag.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\HtmlReportViewModel.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\HTML\HtmlResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="FluentBDD\Processors\Reporters\HTML\HtmlTag.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\IHtmlReportConfiguration.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\IReportBuilder.cs" />
+    <Compile Include="FluentBDD\Processors\Reporters\IReportWriter.cs" />
+    <Compile Include="FluentBDD\Processors\StoryCache.cs" />
+    <Compile Include="FluentBDD\Processors\TestRunner.cs" />
+    <Compile Include="FluentBDD\ProcessType.cs" />
+    <Compile Include="FluentBDD\Scenario.cs" />
+    <Compile Include="FluentBDD\StepExecutionResult.cs" />
+    <Compile Include="FluentBDD\Story.cs" />
+    <Compile Include="FluentBDD\StoryAttribute.cs" />
+    <Compile Include="FluentBDD\StoryAttributeMetaDataScanner.cs" />
+    <Compile Include="FluentBDD\StoryMetaData.cs" />
+    <Compile Include="FluentBDD\StringUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FluentBDD\Processors\Reporters\HTML\BDD.css" />
+    <Content Include="FluentBDD\Processors\Reporters\HTML\BDD.js" />
+    <Content Include="FluentBDD\Processors\Reporters\HTML\jquery-1.7.1.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FluentBDD\Processors\Reporters\HTML\HtmlResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>HtmlResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
