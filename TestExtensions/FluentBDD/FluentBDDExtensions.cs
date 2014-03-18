@@ -73,25 +73,28 @@ namespace TestExtensions.FluentBDD
 			return Run(testObject, null);
 		}
 
-		public static Story Run(this object testObject, string explicitScenarioTitle)
+		public static Story Run<TStory>(this object testObject) where TStory : class, new()
 		{
-			return testObject.LazyRun(explicitScenarioTitle).Run();
+			return Run(testObject, null, typeof(TStory));
 		}
 
-		public static Engine LazyRun(this object testObject, string explicitScenarioTitle = null)
+		public static Story Run(this object testObject, string explicitScenarioTitle, Type explicitStoryType = null)
 		{
-			return InternalLazyBDDfy(testObject, explicitScenarioTitle);
+			return testObject.LazyRun(explicitScenarioTitle, explicitStoryType).Run();
 		}
 
-		static Engine InternalLazyBDDfy(
-			object testObject,
-			string explicitScenarioTitle)
+		static Engine LazyRun(this object testObject, string explicitScenarioTitle = null, Type explicitStoryType = null)
+		{
+			return CreateBDDEngine(testObject, explicitScenarioTitle, explicitStoryType);
+		}
+
+		static Engine CreateBDDEngine(object testObject, string explicitScenarioTitle, Type explicitStoryType)
 		{
 			var testContainer = testObject as ITestContainer;
 			if (testContainer != null)
 			{
 				var scenario = testContainer.GetScenario(explicitScenarioTitle);
-				return new Engine(scenario);
+				return new Engine(scenario, explicitStoryType);
 			}
 
 			throw new ArgumentException("Not a vlaid TestConatiner");

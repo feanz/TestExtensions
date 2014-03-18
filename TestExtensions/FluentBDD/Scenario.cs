@@ -7,25 +7,23 @@ namespace TestExtensions.FluentBDD
 {
 	public class Scenario
 	{
+		private readonly List<ExecutionStep> _steps;
+
 		public Scenario(object testObject, IEnumerable<ExecutionStep> steps, string scenarioText)
 		{
 			TestObject = testObject;
-			_steps = steps.OrderBy(o => o.ExecutionOrder).ThenBy(o => o.ExecutionSubOrder).ToList();
+			_steps = steps.OrderBy(o => o.ExecutionOrder).ToList();
 			Id = Guid.NewGuid();
 
 			Title = scenarioText;
 		}
 
-		public string Title { get; private set; }
-		public TimeSpan Duration { get { return new TimeSpan(_steps.Sum(x => x.Duration.Ticks)); } }
-		public object TestObject { get; private set; }
-		public Guid Id { get; private set; }
-
-		private readonly List<ExecutionStep> _steps;
-		public List<ExecutionStep> Steps
+		public TimeSpan Duration
 		{
-			get { return _steps; }
+			get { return new TimeSpan(_steps.Sum(x => x.Duration.Ticks)); }
 		}
+
+		public Guid Id { get; private set; }
 
 		public StepExecutionResult Result
 		{
@@ -34,9 +32,18 @@ namespace TestExtensions.FluentBDD
 				if (!Steps.Any())
 					return StepExecutionResult.NotExecuted;
 
-				return (StepExecutionResult)Steps.Max(s => (int)s.Result);
+				return (StepExecutionResult) Steps.Max(s => (int) s.Result);
 			}
 		}
+
+		public List<ExecutionStep> Steps
+		{
+			get { return _steps; }
+		}
+
+		public object TestObject { get; private set; }
+
+		public string Title { get; private set; }
 
 		// ToDo: this method does not really belong to this class
 		public StepExecutionResult ExecuteStep(ExecutionStep executionStep)
@@ -48,7 +55,6 @@ namespace TestExtensions.FluentBDD
 			}
 			catch (Exception ex)
 			{
-				// ToDo: more thought should be put into this. Is it safe to get the exception?
 				var exception = ex;
 				if (exception is TargetInvocationException)
 				{

@@ -73,7 +73,7 @@ namespace TestExtensions.Tests
 				.Then(s => s.TheAtmShouldDispense(0), "Then the ATM should not dispense")
 					.And(s => s.AndTheAtmShouldSayThereAreInsufficientFunds())
 					.And(s => s.AndTheAccountBalanceShouldBe(10))
-					.And(s => s.CardIsRetained(true), "And the card should be returned to customer")
+					.And(s => s.CardIsRetained(false), "And the card should be returned to customer")
 				.Run();
 		}
 
@@ -86,5 +86,24 @@ namespace TestExtensions.Tests
 					   .And(s => s.AndTheAtmShouldSayTheCardHasBeenRetained())
 				.Run();
 		}
+
+		[Fact]
+		public void CardHasBeenDisabledExplicitStory()
+		{
+			this.Given(s => s.GivenTheCardIsDisabled())
+				   .When(s => s.WhenTheAccountHolderRequests(20))
+				   .Then(s => s.CardIsRetained(true), "Then the ATM should retain the card")
+					   .And(s => s.AndTheAtmShouldSayTheCardHasBeenRetained())
+				.Run<ExplicitStory>();
+		}
+	}
+
+	[Story(
+		Title = "This is an explicit story",
+		AsA = "Developer",
+		IWant = "I want to be able to separate story and scenario declaration",
+		SoThat = "So they can be in different classes")]
+	public class ExplicitStory
+	{
 	}
 }

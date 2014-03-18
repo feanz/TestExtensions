@@ -4,32 +4,11 @@ using System.Linq;
 
 namespace TestExtensions.FluentBDD
 {
-	public class StoryAttributeMetaDataScanner 
+	public class StoryAttributeMetaDataScanner
 	{
 		public virtual StoryMetaData Scan(object testObject, Type explicitStoryType = null)
 		{
 			return GetStoryMetaData(testObject, explicitStoryType) ?? GetStoryMetaDataFromScenario(testObject);
-		}
-
-		static StoryMetaData GetStoryMetaDataFromScenario(object testObject)
-		{
-			var scenarioType = testObject.GetType();
-			var storyAttribute = GetStoryAttribute(scenarioType);
-			
-			return storyAttribute == null ? null : new StoryMetaData(scenarioType, storyAttribute);
-		}
-
-		StoryMetaData GetStoryMetaData(object testObject, Type explicityStoryType)
-		{
-			var candidateStoryType = GetCandidateStory(testObject, explicityStoryType);
-			if (candidateStoryType == null)
-				return null;
-
-			var storyAttribute = GetStoryAttribute(candidateStoryType);
-			if (storyAttribute == null)
-				return null;
-
-			return new StoryMetaData(candidateStoryType, storyAttribute);
 		}
 
 		protected virtual Type GetCandidateStory(object testObject, Type explicitStoryType)
@@ -51,9 +30,30 @@ namespace TestExtensions.FluentBDD
 			return firstFrame.GetMethod().DeclaringType;
 		}
 
-		static StoryAttribute GetStoryAttribute(Type candidateStoryType)
+		private static StoryAttribute GetStoryAttribute(Type candidateStoryType)
 		{
-			return (StoryAttribute)candidateStoryType.GetCustomAttributes(typeof(StoryAttribute), true).FirstOrDefault();
+			return (StoryAttribute) candidateStoryType.GetCustomAttributes(typeof (StoryAttribute), true).FirstOrDefault();
+		}
+
+		private static StoryMetaData GetStoryMetaDataFromScenario(object testObject)
+		{
+			var scenarioType = testObject.GetType();
+			var storyAttribute = GetStoryAttribute(scenarioType);
+
+			return storyAttribute == null ? null : new StoryMetaData(scenarioType, storyAttribute);
+		}
+
+		private StoryMetaData GetStoryMetaData(object testObject, Type explicateStoryType)
+		{
+			var candidateStoryType = GetCandidateStory(testObject, explicateStoryType);
+			if (candidateStoryType == null)
+				return null;
+
+			var storyAttribute = GetStoryAttribute(candidateStoryType);
+			if (storyAttribute == null)
+				return null;
+
+			return new StoryMetaData(candidateStoryType, storyAttribute);
 		}
 	}
 }

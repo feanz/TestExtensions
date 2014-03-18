@@ -25,7 +25,6 @@ namespace TestExtensions.FluentBDD
 		public TimeSpan Duration { get; set; }
 		public Exception Exception { get; set; }
 		public ExecutionOrder ExecutionOrder { get; private set; }
-		public int ExecutionSubOrder { get; set; }
 		public Guid Id { get; private set; }
 		public StepExecutionResult Result { get; set; }
 		public bool ShouldReport { get; private set; }
@@ -34,7 +33,7 @@ namespace TestExtensions.FluentBDD
 
 		public void Execute(object testObject)
 		{
-			Stopwatch sw = Stopwatch.StartNew();
+			var sw = Stopwatch.StartNew();
 			try
 			{
 				StepAction(testObject);

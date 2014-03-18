@@ -14,7 +14,7 @@ namespace TestExtensions.FluentBDD.Configuration
 			yield return new HtmlReporter();
 		}
 
-		public static IEnumerable<IProcessor> GetProcessors(Story story)
+		public static IEnumerable<IProcessor> GetProcessors()
 		{
 			yield return new TestRunner();
 			yield return new ConsoleReporter();

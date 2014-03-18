@@ -7,7 +7,8 @@ namespace TestExtensions.FluentBDD
 	public class Engine
 	{
 		private readonly Scenario scenario;
-		
+		private readonly Type explicitStoryType;
+
 		static Engine()
 		{
 			AppDomain.CurrentDomain.DomainUnload += CurrentDomain_DomainUnload;
@@ -21,22 +22,23 @@ namespace TestExtensions.FluentBDD
 			}
 		}
 
-		public Engine(Scenario scenario)
+		public Engine(Scenario scenario, Type explicitStoryType)
 		{
 			this.scenario = scenario;
+			this.explicitStoryType = explicitStoryType;
 		}
 
 		public Story Run()
 		{
-			var metaData = new StoryAttributeMetaDataScanner().Scan(scenario.TestObject);
+			var metaData = new StoryAttributeMetaDataScanner().Scan(scenario.TestObject, explicitStoryType);
 
 			Story = new Story(metaData, scenario);
 
-			var processors = Configuration.Processors.GetProcessors(Story).ToList();
+			var processors = Configuration.Processors.GetProcessors().ToList();
 
 			try
 			{
-				//run processors in the right order regardless of the order they are provided to the Bddifer
+				//run processors in the right order regardless of the order they are provided 
 				foreach (var processor in processors.Where(p => p.ProcessType != ProcessType.Finally).OrderBy(p => (int)p.ProcessType))
 					processor.Process(Story);
 			}
